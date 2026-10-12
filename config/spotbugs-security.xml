@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Bug category="SECURITY"/>
+        <Not><Bug pattern="SPRING_ENDPOINT"/></Not>
+        <Not>
+            <And>
+                <Bug pattern="SERVLET_HEADER"/>
+                <Class name="com.mikle.lab1.security.JwtAuthFilter"/>
+                <Method name="doFilterInternal"/>
+            </And>
+        </Not>
+    </Match>
+</FindBugsFilter>
