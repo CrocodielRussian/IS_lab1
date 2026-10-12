@@ -28,6 +28,8 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <!-- Tomcat security fixes beyond the version managed by Spring Boot 4.1.1. -->
+        <tomcat.version>11.0.26</tomcat.version>
         <jjwt.version>0.13.0</jjwt.version>
     </properties>
     <dependencies>
