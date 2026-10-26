@@ -246,24 +246,6 @@ JWT не принимается из cookies. CSRF-защита отключен
 - Контейнер приложения запускается от непривилегированного пользователя.
 - PostgreSQL хранит данные в именованном томе; его порт не публикуется на хосте.
 
-# Swagger UI
-
-Документация доступна без авторизации:
-
-- [Swagger UI](http://localhost:8080/swagger-ui.html).
-- [OpenAPI JSON](http://localhost:8080/v3/api-docs).
-
-Для создания своих данных через Swagger:
-
-1. Выполните `POST /auth/create` или `POST /auth/login` через **Try it out → Execute**.
-2. Скопируйте значение `token` из ответа без кавычек.
-3. Нажмите **Authorize**, вставьте токен без префикса `Bearer`, подтвердите и закройте окно.
-4. Выполните `POST /api/data/create`, указав `name` и `description`.
-5. Получите свои записи через `GET /api/data` или одну запись через `GET /api/description/{id}`.
-
-Если токен истёк, выполните вход повторно и замените его в **Authorize**.
-При изменённом `APP_PORT` используйте этот порт вместо `8080`.
-
 # Запуск
 
 ## Docker Compose
@@ -294,26 +276,6 @@ Compose ждёт готовности PostgreSQL перед запуском п�
 его изменение само по себе не меняет пароль в уже созданной базе.
 
 Остановка: `docker compose down`. Данные БД сохраняются; команда с `--volumes` удалит их.
-
-## Без Docker
-
-Для запуска нужен PostgreSQL. Настройки подключения и секрет JWT передаются через переменные окружения:
-
-```bash
-export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/lab1
-export SPRING_DATASOURCE_USERNAME=lab1
-read -rsp 'Пароль БД: ' SPRING_DATASOURCE_PASSWORD
-export SPRING_DATASOURCE_PASSWORD
-export JWT_SECRET="$(openssl rand -base64 32)"
-./mvnw spring-boot:run
-```
-
-Секрет JWT обязателен: Base64 от случайных 32 байт или больше. Не храните секреты в Git.
-JWT действует один час; смена ключа делает ранее выданные токены недействительными.
-Hibernate создаёт/обновляет таблицы через `ddl-auto=update`.
-Пользователи и записи автоматически не создаются. Создайте пользователя через `POST /auth/create`.
-
-Существующие записи без имени получают имя «Без названия» при обновлении схемы Hibernate.
 
 # Проверки и CI
 
